@@ -1,14 +1,14 @@
 import { AsyncStorage } from 'react-native';
-import CircularJSON from './circular-json';
 
 export default (key) => ({
     load() {
         return AsyncStorage.getItem(key)
-            .then((jsonState) => CircularJSON.parse(jsonState) || {});
+            .then((jsonState) => JSON.parse(jsonState) || {});
     },
 
     save(state) {
-        const jsonState = CircularJSON.stringify(state);
+        state.data.data.currentRouter = {};
+        const jsonState = JSON.stringify(state);
         return AsyncStorage.setItem(key, jsonState);
     }
 });
